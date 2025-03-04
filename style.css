@@ -1,11 +1,119 @@
-/* Основные стили для карты и страницы */
 body {
     margin: 0;
-    padding: 0;
+    padding: 20px;
     font-family: Arial, sans-serif;
 }
 
+.container {
+    display: flex;
+    gap: 20px;
+}
+
 #map {
-    height: 100vh; /* Карта занимает всю высоту экрана */
-    width: 100%;
+    height: 600px;
+    flex: 1;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.info-panel {
+    width: 300px;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.info-panel h3, .info-panel h4 {
+    margin-top: 0;
+    color: #333;
+}
+
+.info-panel h4 {
+    margin: 15px 0 10px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+#area-value {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.pollution-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.pollution-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    background: #f8f9fa;
+    border-radius: 4px;
+}
+
+.pollution-item .label {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.calculation-status {
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #666;
+    font-style: italic;
+}
+
+/* Стили для всплывающего окна с данными о загрязнении */
+.pollution-popup {
+    padding: 10px;
+    max-width: 300px;
+}
+
+.pollution-popup h3 {
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.pollution-popup h4 {
+    margin: 10px 0 5px 0;
+    color: #34495e;
+}
+
+.pollution-popup p {
+    margin: 5px 0;
+}
+
+.pollution-popup ul {
+    list-style: none;
+    padding: 0;
+    margin: 5px 0;
+}
+
+.pollution-popup li {
+    margin: 3px 0;
+    color: #555;
+}
+
+.error-popup {
+    color: #e74c3c;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.delete-marker-hint {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+    color: #7f8c8d;
+    font-size: 0.9em;
+    font-style: italic;
+    text-align: center;
 }
