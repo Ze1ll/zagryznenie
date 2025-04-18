@@ -15,6 +15,7 @@
     </style>
 </head>
 <body>
+<<<<<<< HEAD
     <div class="container">
         <div id="map"></div>
         <div id="area-info" class="info-panel">
@@ -58,6 +59,28 @@
     </div>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+=======
+    <button id="toggle-theme" class="theme-btn">🌙 Тёмная тема</button>
+    <div class="container">
+        <div id="map"></div>
+        <div id="area-info" class="info-panel">
+            <div class="search-gps-combined search-gps-inside-panel">
+                <input type="text" id="city-search" placeholder="Поиск города...">
+                <input type="text" id="gps-coords" placeholder="GPS: lat,lon">
+                <button id="gps-go">Перейти</button>
+            </div>
+            <h3>Информация об области</h3>
+            <p>Площадь: <span id="area-value">0</span> кв. км</p>
+            <div id="pollution-info"></div>
+            <canvas id="pollution-chart" width="400" height="150"></canvas>
+            <div id="calculation-status"></div>
+        </div>
+        <div id="areas-list" class="areas-list"></div>
+    </div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+>>>>>>> b38ff5b (Обновление: визуализация загрязнения, поиск, тёмная тема, улучшения интерфейса)
     <script src="app.js"></script>
 </body>
 </html>

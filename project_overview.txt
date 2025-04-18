@@ -1,0 +1,63 @@
+Проект "Визуализация техногенных загрязнений" — это веб-сервис с картографическим интерфейсом для отображения и анализа данных о загрязнении окружающей среды.
+
+Принцип работы:
+1. На фронтенде (index.html, app.js, style.css) реализована карта (Leaflet), на которой пользователь может рисовать области (полигоны) и ставить маркеры.
+   
+   Пример:
+   ```javascript
+   var map = L.map('map').setView([59.9343, 30.3351], 13);
+   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+       maxZoom: 19,
+       attribution: ' OpenStreetMap contributors'
+   }).addTo(map);
+   ```
+
+2. При выделении области или постановке маркера происходит запрос к внешним API (OpenWeatherMap) для получения данных о загрязнении воздуха по выбранным координатам.
+   
+   Пример:
+   ```javascript
+   async function fetchAirQualityData(lat, lon) {
+       const apiKey = '...';
+       const url = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+       const response = await fetch(url);
+       const data = await response.json();
+       return data;
+   }
+   ```
+
+3. Для областей рассчитывается среднее значение загрязнения по сетке точек внутри полигона.
+   
+   Пример:
+   ```javascript
+   async function calculatePolygonPollution(polygon) {
+       const points = getGridPointsInPolygon(polygon);
+       const pollutionData = await Promise.all(
+           points.map(point => fetchAirQualityData(point.lat, point.lng))
+       );
+       // ... вычисление среднего
+   }
+   ```
+
+4. Полученные значения (AQI, CO, NO₂, O₃, SO₂, PM2.5, PM10) отображаются в панели справа и во всплывающих окнах на карте.
+   
+   Пример:
+   ```javascript
+   function updatePollutionInfo(values) {
+       document.getElementById('avg-aqi').textContent = values.aqi.toFixed(1);
+       // ... остальные значения
+   }
+   ```
+
+5. Бэкенд (backend/server.js) реализован на Express и предоставляет дополнительный API для получения данных о загрязнении из OpenAQ, а также обслуживает статические файлы фронтенда.
+   
+   Пример:
+   ```javascript
+   app.get('/api/pollution', async (req, res) => {
+       const response = await axios.get('https://api.openaq.org/v2/latest', {
+           params: { country: 'RU', limit: 5 }
+       });
+       res.json(response.data);
+   });
+   ```
+
+Проект позволяет интерактивно исследовать уровень загрязнения воздуха в различных точках и областях на карте.
