@@ -4,21 +4,10 @@ body {
     font-family: Arial, sans-serif;
 }
 
-<<<<<<< HEAD
-.container {
-    display: flex;
-    gap: 20px;
-=======
-body.dark-theme {
-    background: #181c1f;
-    color: #e8e8e8;
-}
-
 .container {
     display: flex;
     gap: 20px;
     position: relative;
->>>>>>> b38ff5b (Обновление: визуализация загрязнения, поиск, тёмная тема, улучшения интерфейса)
 }
 
 #map {
@@ -36,18 +25,6 @@ body.dark-theme {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-<<<<<<< HEAD
-=======
-.dark-theme .info-panel,
-.dark-theme .area-block,
-.dark-theme .search-gps-inside-panel {
-    background: #23272b !important;
-    color: #e8e8e8;
-    border-color: #333;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.55);
-}
-
->>>>>>> b38ff5b (Обновление: визуализация загрязнения, поиск, тёмная тема, улучшения интерфейса)
 .info-panel h3, .info-panel h4 {
     margin-top: 0;
     color: #333;
@@ -141,8 +118,6 @@ body.dark-theme {
     font-style: italic;
     text-align: center;
 }
-<<<<<<< HEAD
-=======
 
 .search-gps-inside-panel {
     width: 100%;
@@ -162,14 +137,6 @@ body.dark-theme {
     font-size: 1em;
 }
 
-.dark-theme input,
-.dark-theme select,
-.dark-theme textarea {
-    background: #23272b;
-    color: #e8e8e8;
-    border: 1px solid #444;
-}
-
 .search-gps-inside-panel button {
     padding: 5px 12px;
     border-radius: 4px;
@@ -179,15 +146,6 @@ body.dark-theme {
     font-size: 1em;
     cursor: pointer;
     transition: background 0.2s;
-}
-
-.dark-theme button {
-    background: #2c3e50;
-    color: #e8e8e8;
-}
-
-.dark-theme button:hover {
-    background: #34495e;
 }
 
 .search-gps-inside-panel button:hover {
@@ -210,8 +168,97 @@ body.dark-theme {
     }
 }
 
-/* Удалить старые стили поиска сверху/справа */
-.search-gps-top-center, .search-gps-combined.leaflet-bottom.leaflet-right { display: none !important; }
+body.dark-theme {
+    background: #181c1f;
+    color: #e8e8e8;
+}
+
+.dark-theme .info-panel,
+.dark-theme .area-block,
+.dark-theme .search-gps-inside-panel {
+    background: #23272b !important;
+    color: #e8e8e8;
+    border-color: #333;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.55);
+}
+
+.dark-theme input,
+.dark-theme select,
+.dark-theme textarea {
+    background: #23272b;
+    color: #e8e8e8;
+    border: 1px solid #444;
+}
+
+.dark-theme button {
+    background: #2c3e50;
+    color: #e8e8e8;
+}
+
+.dark-theme button:hover {
+    background: #34495e;
+}
+
+.dark-theme .leaflet-control,
+.dark-theme .leaflet-bar {
+    background: #23272b !important;
+    color: #e8e8e8 !important;
+    border: 1px solid #333 !important;
+}
+
+.dark-theme .leaflet-popup-content-wrapper,
+.dark-theme .leaflet-popup-tip {
+    background: #23272b;
+    color: #e8e8e8;
+}
+
+.dark-theme .chartjs-render-monitor {
+    background: #23272b !important;
+}
+
+.dark-theme .area-info-item span {
+    color: #e8e8e8;
+}
+
+.dark-theme .leaflet-control-layers {
+    background: #23272b !important;
+    color: #e8e8e8 !important;
+    border: 1px solid #333 !important;
+}
+
+.dark-theme .leaflet-control-attribution {
+    background: transparent !important;
+    color: #888 !important;
+}
+
+.theme-btn {
+    position: fixed;
+    bottom: 18px;
+    left: 18px;
+    right: auto;
+    top: auto;
+    z-index: 2000;
+    padding: 8px 16px;
+    font-size: 1em;
+    border-radius: 6px;
+    border: none;
+    background: #23272b;
+    color: #e8e8e8;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.22);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+@media (max-width: 700px) {
+    .theme-btn {
+        bottom: 12px;
+        left: 12px;
+        right: auto;
+        top: auto;
+        padding: 8px 14px;
+        font-size: 1em;
+    }
+}
 
 .areas-list {
     margin-top: 25px;
@@ -250,10 +297,6 @@ body.dark-theme {
     justify-content: space-between;
 }
 
-.dark-theme .area-info-item span {
-    color: #e8e8e8;
-}
-
 .area-block .area-chart-container {
     margin-top: 8px;
 }
@@ -268,73 +311,5 @@ body.dark-theme {
     text-decoration: underline;
 }
 
-.dark-theme .leaflet-control,
-.dark-theme .leaflet-bar {
-    background: #23272b !important;
-    color: #e8e8e8 !important;
-    border: 1px solid #333 !important;
-}
-
-.dark-theme .leaflet-popup-content-wrapper,
-.dark-theme .leaflet-popup-tip {
-    background: #23272b;
-    color: #e8e8e8;
-}
-
-.dark-theme .chartjs-render-monitor {
-    background: #23272b !important;
-}
-
-.dark-theme .leaflet-control-layers {
-    background: #23272b !important;
-    color: #e8e8e8 !important;
-    border: 1px solid #333 !important;
-}
-
-.dark-theme .leaflet-control-attribution {
-    background: transparent !important;
-    color: #888 !important;
-}
-
-.theme-btn {
-    position: fixed;
-    bottom: 18px;
-    left: 18px;
-    right: auto;
-    top: auto;
-    z-index: 2000;
-    padding: 8px 16px;
-    font-size: 1em;
-    border-radius: 6px;
-    border: none;
-    background: #23272b;
-    color: #e8e8e8;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.22);
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-}
-.theme-btn:hover {
-    background: #34495e;
-    color: #fff;
-}
-body:not(.dark-theme) .theme-btn {
-    background: #f6f6f6;
-    color: #23272b;
-    border: 1px solid #bbb;
-}
-body:not(.dark-theme) .theme-btn:hover {
-    background: #e2e2e2;
-    color: #111;
-}
-
-@media (max-width: 700px) {
-    .theme-btn {
-        bottom: 12px;
-        left: 12px;
-        right: auto;
-        top: auto;
-        padding: 8px 14px;
-        font-size: 1em;
-    }
-}
->>>>>>> b38ff5b (Обновление: визуализация загрязнения, поиск, тёмная тема, улучшения интерфейса)
+/* Удалить старые стили поиска сверху/справа */
+.search-gps-top-center, .search-gps-combined.leaflet-bottom.leaflet-right { display: none !important; }

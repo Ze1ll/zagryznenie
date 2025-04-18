@@ -15,56 +15,11 @@
     </style>
 </head>
 <body>
-<<<<<<< HEAD
-    <div class="container">
-        <div id="map"></div>
-        <div id="area-info" class="info-panel">
-            <h3>Информация об области</h3>
-            <p>Площадь: <span id="area-value">0</span> кв. км</p>
-            <div class="pollution-info">
-                <h4>Загрязнение в области:</h4>
-                <div class="pollution-grid">
-                    <div class="pollution-item">
-                        <span class="label">AQI:</span>
-                        <span id="avg-aqi">-</span>
-                    </div>
-                    <div class="pollution-item">
-                        <span class="label">CO:</span>
-                        <span id="avg-co">-</span>
-                    </div>
-                    <div class="pollution-item">
-                        <span class="label">NO₂:</span>
-                        <span id="avg-no2">-</span>
-                    </div>
-                    <div class="pollution-item">
-                        <span class="label">O₃:</span>
-                        <span id="avg-o3">-</span>
-                    </div>
-                    <div class="pollution-item">
-                        <span class="label">SO₂:</span>
-                        <span id="avg-so2">-</span>
-                    </div>
-                    <div class="pollution-item">
-                        <span class="label">PM2.5:</span>
-                        <span id="avg-pm25">-</span>
-                    </div>
-                    <div class="pollution-item">
-                        <span class="label">PM10:</span>
-                        <span id="avg-pm10">-</span>
-                    </div>
-                </div>
-                <div id="calculation-status" class="calculation-status"></div>
-            </div>
-        </div>
-    </div>
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
-=======
     <button id="toggle-theme" class="theme-btn">🌙 Тёмная тема</button>
     <div class="container">
         <div id="map"></div>
         <div id="area-info" class="info-panel">
-            <div class="search-gps-combined search-gps-inside-panel">
+            <div class="search-gps-inside-panel">
                 <input type="text" id="city-search" placeholder="Поиск города...">
                 <input type="text" id="gps-coords" placeholder="GPS: lat,lon">
                 <button id="gps-go">Перейти</button>
@@ -80,7 +35,6 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
->>>>>>> b38ff5b (Обновление: визуализация загрязнения, поиск, тёмная тема, улучшения интерфейса)
     <script src="app.js"></script>
 </body>
 </html>
