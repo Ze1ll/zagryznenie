@@ -16,25 +16,62 @@
 </head>
 <body>
     <button id="toggle-theme" class="theme-btn">🌙 Тёмная тема</button>
+    <button id="guide-btn" class="guide-btn">📘 Помощь по сайту</button>
     <div class="container">
         <div id="map"></div>
         <div id="area-info" class="info-panel">
             <div class="search-gps-inside-panel">
-                <input type="text" id="city-search" placeholder="Поиск города...">
-                <input type="text" id="gps-coords" placeholder="GPS: lat,lon">
-                <button id="gps-go">Перейти</button>
+                <input type="text" id="search-input" placeholder="Поиск города или GPS: lat,lon">
+                <button id="search-go">Перейти</button>
             </div>
-            <h3>Информация об области</h3>
-            <p>Площадь: <span id="area-value">0</span> кв. км</p>
-            <div id="pollution-info"></div>
-            <canvas id="pollution-chart" width="400" height="150"></canvas>
-            <div id="calculation-status"></div>
         </div>
         <div id="areas-list" class="areas-list"></div>
     </div>
+    <div id="guide-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Описание возможностей</h2>
+            <p>Этот веб-сервис позволяет визуализировать антропогенное загрязнение с использованием карты. Пользователи могут взаимодействовать с картой, добавлять области, получать данные о качестве воздуха и прогнозы.</p>
+            <h3>Основные возможности</h3>
+            <ul>
+                <li><strong>Добавление областей:</strong> Рисуйте полигоны на карте, чтобы определить области интереса.</li>
+                <li><strong>Просмотр данных о загрязнении:</strong> Получайте информацию о качестве воздуха в выбранной области, включая AQI и компоненты загрязнения.</li>
+                <li><strong>Прогнозы:</strong> Просматривайте прогнозы качества воздуха для выбранных областей.</li>
+                <li><strong>Изменение имени области:</strong> Переименовывайте области для удобства идентификации.</li>
+                <li><strong>Перемещение к области:</strong> Быстро перемещайтесь к интересующей области на карте.</li>
+            </ul>
+            <h3>Инструкция по использованию</h3>
+            <ol>
+                <li>Добавьте область, нарисовав полигон на карте.</li>
+                <li>Просмотрите данные о загрязнении и прогнозы для выбранной области.</li>
+                <li>Измените имя области для удобства.</li>
+                <li>Используйте кнопку "Перейти к области", чтобы быстро перемещаться по карте.</li>
+            </ol>
+        </div>
+    </div>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+    <script src="https://unpkg.com/leaflet-geometryutil@0.10.0/src/leaflet.geometryutil.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="app.js"></script>
+    <script>
+        const guideBtn = document.getElementById('guide-btn');
+        const guideModal = document.getElementById('guide-modal');
+        const closeBtn = document.querySelector('.close-btn');
+
+        guideBtn.onclick = function() {
+            guideModal.style.display = 'block';
+        }
+
+        closeBtn.onclick = function() {
+            guideModal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == guideModal) {
+                guideModal.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>

@@ -32,7 +32,7 @@ var pollutionMarkers = L.layerGroup().addTo(map);
 
 var drawControl = new L.Control.Draw({
     draw: {
-        marker: true, // Разрешаем ставить маркеры
+        marker: false, // Отключаем возможность ставить маркеры
         circle: false,
         circlemarker: false,
         rectangle: false,
@@ -260,6 +260,9 @@ let areaIdCounter = 1;
 async function addArea(polygon) {
     const areaId = areaIdCounter++;
     const areaCenter = polygon.getBounds().getCenter();
+    // Вычисление площади полигона в квадратных километрах
+    const area = L.GeometryUtil.geodesicArea(polygon.getLatLngs()[0]) / 1e6;
+    console.log("Вычисленная площадь полигона:", area);
     // Получаем средние значения загрязнения
     const points = getGridPointsInPolygon(polygon);
     const pollutionData = await Promise.all(points.map(point => fetchAirQualityData(point.lat, point.lng)));
@@ -283,12 +286,16 @@ async function addArea(polygon) {
             fillOpacity: 0.25
         });
     }
-    areasData.push({ id: areaId, polygon, averages, forecast });
+    areasData.push({ id: areaId, polygon, averages, forecast, area, name: `Область #${areaId}` });
     renderAreasList();
 }
 
 // Функция для удаления области
 function removeArea(areaId) {
+    const area = areasData.find(area => area.id === areaId);
+    if (area) {
+        map.removeLayer(area.polygon);
+    }
     areasData = areasData.filter(area => area.id !== areaId);
     renderAreasList();
 }
@@ -301,15 +308,20 @@ function renderAreasList() {
         const block = document.createElement('div');
         block.className = 'area-block';
         block.innerHTML = `
-            <h4>Область #${area.id}</h4>
+            <h4>
+                ${area.name}
+                <button onclick="renameArea(${area.id})">Изменить имя</button>
+                <button onclick="focusOnArea(${area.id})">Перейти к области</button>
+            </h4>
             <div class="area-info-grid">
-                <div class="area-info-item"><span>AQI</span><span>${area.averages ? area.averages.aqi.toFixed(1) : '-'}</span></div>
-                <div class="area-info-item"><span>CO</span><span>${area.averages ? area.averages.co.toFixed(2) : '-'}</span></div>
-                <div class="area-info-item"><span>NO₂</span><span>${area.averages ? area.averages.no2.toFixed(2) : '-'}</span></div>
-                <div class="area-info-item"><span>O₃</span><span>${area.averages ? area.averages.o3.toFixed(2) : '-'}</span></div>
-                <div class="area-info-item"><span>SO₂</span><span>${area.averages ? area.averages.so2.toFixed(2) : '-'}</span></div>
-                <div class="area-info-item"><span>PM2.5</span><span>${area.averages ? area.averages.pm2_5.toFixed(2) : '-'}</span></div>
-                <div class="area-info-item"><span>PM10</span><span>${area.averages ? area.averages.pm10.toFixed(2) : '-'}</span></div>
+                <div class="area-info-item"><span>AQI (Индекс качества воздуха)</span><span>${area.averages ? area.averages.aqi.toFixed(1) : '-'}</span></div>
+                <div class="area-info-item"><span>CO (Монооксид углерода)</span><span>${area.averages ? area.averages.co.toFixed(2) : '-'}</span></div>
+                <div class="area-info-item"><span>NO₂ (Диоксид азота)</span><span>${area.averages ? area.averages.no2.toFixed(2) : '-'}</span></div>
+                <div class="area-info-item"><span>O₃ (Озон)</span><span>${area.averages ? area.averages.o3.toFixed(2) : '-'}</span></div>
+                <div class="area-info-item"><span>SO₂ (Диоксид серы)</span><span>${area.averages ? area.averages.so2.toFixed(2) : '-'}</span></div>
+                <div class="area-info-item"><span>PM2.5 (Твердые частицы до 2.5 мкм)</span><span>${area.averages ? area.averages.pm2_5.toFixed(2) : '-'}</span></div>
+                <div class="area-info-item"><span>PM10 (Твердые частицы до 10 мкм)</span><span>${area.averages ? area.averages.pm10.toFixed(2) : '-'}</span></div>
+                <div class="area-info-item"><span>Площадь</span><span>${area.area.toFixed(2)} км²</span></div>
             </div>
             <div class="area-chart-container"><canvas id="area-chart-${area.id}" width="320" height="140"></canvas></div>
             <button class="area-delete-btn" onclick="removeArea(${area.id})">Удалить область</button>
@@ -345,6 +357,26 @@ function renderAreasList() {
     });
 }
 
+// Функция для изменения имени области
+function renameArea(areaId) {
+    const newName = prompt("Введите новое имя для области:");
+    if (newName) {
+        const area = areasData.find(area => area.id === areaId);
+        if (area) {
+            area.name = newName;
+            renderAreasList();
+        }
+    }
+}
+
+// Функция для фокусировки на области
+function focusOnArea(areaId) {
+    const area = areasData.find(area => area.id === areaId);
+    if (area) {
+        map.fitBounds(area.polygon.getBounds());
+    }
+}
+
 // === Переключение тёмной/светлой темы ===
 const themeBtn = document.getElementById('toggle-theme');
 if (themeBtn) {
@@ -368,6 +400,39 @@ themeBtn && themeBtn.addEventListener('click', function() {
     } else {
         localStorage.setItem('theme', 'light');
     }
+});
+
+// === Объединенный поиск по городу или GPS ===
+const searchButton = document.getElementById('search-go');
+const searchInput = document.getElementById('search-input');
+
+searchButton.addEventListener('click', () => {
+    const query = searchInput.value.trim();
+    if (!query) return;
+
+    const coords = query.split(',');
+    if (coords.length === 2) {
+        const lat = parseFloat(coords[0]);
+        const lon = parseFloat(coords[1]);
+        if (!isNaN(lat) && !isNaN(lon)) {
+            map.setView([lat, lon], 13);
+            return;
+        }
+    }
+
+    // Геокодирование по названию города через Nominatim (OpenStreetMap)
+    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data && data.length > 0) {
+                const lat = parseFloat(data[0].lat);
+                const lon = parseFloat(data[0].lon);
+                map.setView([lat, lon], 13);
+            } else {
+                alert('Город не найден');
+            }
+        })
+        .catch(() => alert('Ошибка поиска города'));
 });
 
 // === Поиск города и GPS в одном блоке ===
